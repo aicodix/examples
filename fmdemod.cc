@@ -82,9 +82,12 @@ int main(int argc, char **argv)
 			cmplx iq = input();
 			iq = iflp(iq);
 			iq = iqdc(iq);
-			value itmp = ipow(iq.real() * iq.real());
-			value qtmp = qpow(iq.imag() * iq.imag());
-			iq.imag(iq.imag() * sqrt(itmp / qtmp));
+			value isqr = iq.real() * iq.real();
+			value qsqr = iq.imag() * iq.imag();
+			value iamp = sqrt(value(2) * ipow(isqr));
+			value qamp = sqrt(value(2) * qpow(qsqr));
+			iq.real(iq.real() / iamp);
+			iq.imag(iq.imag() / qamp);
 			tmp = demod(iq);
 			tmp = notch(tmp);
 			tmp = aalp(tmp);
