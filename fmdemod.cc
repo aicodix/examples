@@ -8,6 +8,7 @@ Copyright 2019 Ahmet Inan <inan@aicodix.de>
 #include <stdio.h>
 #include <stdlib.h>
 #include "complex.hh"
+#include "blockdc.hh"
 #include "ema.hh"
 #include "fmd.hh"
 #include "biquad.hh"
@@ -22,7 +23,7 @@ cmplx input()
 		exit(0);
 	value real(inp[0]);
 	value imag(inp[1]);
-	value bias(-127.4); // not 127.5: bug (or feature?) in chip
+	value bias(-127.5);
 	value scale(0.0078125);
 	return scale * cmplx(real + bias, imag + bias);
 }
@@ -55,6 +56,8 @@ int main(int argc, char **argv)
 	int knee = region(argv[3]);
 	DSP::EMACascade<cmplx, value, 3> iflp;
 	iflp.cutoff(75000, irate);
+	DSP::BlockDC<cmplx, value> iqdc;
+	iqdc.samples(irate);
 	DSP::FMD5<cmplx> demod;
 	demod.bandwidth(value(150000) / value(irate));
 	DSP::Biquad<value, value> notch;
@@ -75,6 +78,7 @@ int main(int argc, char **argv)
 		for (; n < irate; n += orate) {
 			cmplx iq = input();
 			iq = iflp(iq);
+			iq = iqdc(iq);
 			tmp = demod(iq);
 			tmp = notch(tmp);
 			tmp = aalp(tmp);
