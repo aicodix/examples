@@ -58,6 +58,9 @@ int main(int argc, char **argv)
 	iflp.cutoff(75000, irate);
 	DSP::BlockDC<cmplx, value> iqdc;
 	iqdc.samples(irate);
+	DSP::EMA<value, value> ipow(1), qpow(1);
+	ipow.samples(irate / 10);
+	qpow.samples(irate / 10);
 	DSP::FMD5<cmplx> demod;
 	demod.bandwidth(value(150000) / value(irate));
 	DSP::Biquad<value, value> notch;
@@ -79,6 +82,9 @@ int main(int argc, char **argv)
 			cmplx iq = input();
 			iq = iflp(iq);
 			iq = iqdc(iq);
+			value itmp = ipow(iq.real() * iq.real());
+			value qtmp = qpow(iq.imag() * iq.imag());
+			iq.imag(iq.imag() * sqrt(itmp / qtmp));
 			tmp = demod(iq);
 			tmp = notch(tmp);
 			tmp = aalp(tmp);
