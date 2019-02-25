@@ -8,10 +8,10 @@ Copyright 2019 Ahmet Inan <inan@aicodix.de>
 #include <stdio.h>
 #include <stdlib.h>
 #include "complex.hh"
-#include "blockdc.hh"
 #include "ema.hh"
 #include "fmd.hh"
 #include "biquad.hh"
+#include "normalize.hh"
 
 typedef float value;
 typedef DSP::Complex<value> cmplx;
@@ -56,11 +56,8 @@ int main(int argc, char **argv)
 	int knee = region(argv[3]);
 	DSP::EMACascade<cmplx, value, 3> iflp;
 	iflp.cutoff(75000, irate);
-	DSP::BlockDC<cmplx, value> iqdc;
-	iqdc.samples(irate);
-	DSP::EMA<value, value> ipow(1), qpow(1);
-	ipow.samples(irate / 10);
-	qpow.samples(irate / 10);
+	DSP::NormalizeIQ<cmplx> normalize;
+	normalize.samples(irate / 10);
 	DSP::FMD5<cmplx> demod;
 	demod.bandwidth(value(150000) / value(irate));
 	DSP::Biquad<value, value> notch;
@@ -81,13 +78,7 @@ int main(int argc, char **argv)
 		for (; n < irate; n += orate) {
 			cmplx iq = input();
 			iq = iflp(iq);
-			iq = iqdc(iq);
-			value isqr = iq.real() * iq.real();
-			value qsqr = iq.imag() * iq.imag();
-			value iamp = sqrt(value(2) * ipow(isqr));
-			value qamp = sqrt(value(2) * qpow(qsqr));
-			iq.real(iq.real() / iamp);
-			iq.imag(iq.imag() / qamp);
+			iq = normalize(iq);
 			tmp = demod(iq);
 			tmp = notch(tmp);
 			tmp = aalp(tmp);
