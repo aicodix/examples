@@ -13,22 +13,22 @@ Copyright 2019 Ahmet Inan <inan@aicodix.de>
 #include "biquad.hh"
 #include "normalize.hh"
 
-typedef float value;
-typedef DSP::Complex<value> cmplx;
-
-cmplx input()
+template <typename CMPLX>
+CMPLX input()
 {
 	unsigned char inp[2];
 	if (fread_unlocked(inp, 2, 1, stdin) != 1)
 		exit(0);
-	value real(inp[0]);
-	value imag(inp[1]);
-	value bias(-127.5);
-	value scale(0.0078125);
-	return scale * cmplx(real + bias, imag + bias);
+	typename CMPLX::value_type
+		real(inp[0]),
+		imag(inp[1]),
+		bias(127.5),
+		scale(0.0078125);
+	return scale * CMPLX(real - bias, imag - bias);
 }
 
-void output(value out)
+template <typename TYPE>
+void output(TYPE out)
 {
 	if (fwrite_unlocked(&out, sizeof(out), 1, stdout) != 1)
 		exit(0);
@@ -54,6 +54,8 @@ int main(int argc, char **argv)
 	int irate = atoi(argv[1]);
 	int orate = atoi(argv[2]);
 	int knee = region(argv[3]);
+	typedef float value;
+	typedef DSP::Complex<value> cmplx;
 	DSP::EMACascade<cmplx, value, 3> iflp;
 	iflp.cutoff(75000, irate);
 	DSP::NormalizeIQ<cmplx> normalize;
@@ -76,7 +78,7 @@ int main(int argc, char **argv)
 	for (int n = 0;; n -= irate) {
 		value tmp(0);
 		for (; n < irate; n += orate) {
-			cmplx iq = input();
+			cmplx iq = input<cmplx>();
 			iq = iflp(iq);
 			iq = normalize(iq);
 			tmp = demod(iq);
