@@ -3,11 +3,18 @@ CXXFLAGS = -std=c++11 -W -Wall -Ofast -fno-exceptions -fno-rtti -march=native -I
 CXX = clang++ -stdlib=libc++
 #CXX = g++
 
+.PHONY: all
+
+all: fmdemod fmstereo
+
 fmdemod: fmdemod.cc
+	$(CXX) $(CXXFLAGS) $< -o $@
+
+fmstereo: fmstereo.cc
 	$(CXX) $(CXXFLAGS) $< -o $@
 
 .PHONY: clean
 
 clean:
-	rm -f fmdemod
+	rm -f fmdemod fmstereo
 

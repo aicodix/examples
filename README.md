@@ -13,3 +13,16 @@ rtl_sdr -f $FREQ -s $IRATE - | ./fmdemod $IRATE $ORATE $REGION | aplay -t raw -c
 
 ```
 
+### [fmstereo.cc](fmstereo.cc)
+
+[Frequency modulation](https://en.wikipedia.org/wiki/Frequency_modulation) [demodulation](https://en.wikipedia.org/wiki/Demodulation) of commercial [stereo](https://en.wikipedia.org/wiki/Stereophonic_sound) [FM broadcasting](https://en.wikipedia.org/wiki/FM_broadcasting).
+
+```
+REGION=1
+FREQ=106.4M
+IRATE=2048000
+ORATE=44100
+rtl_sdr -f $FREQ -s $IRATE - | ./fmstereo $IRATE $ORATE $REGION | aplay -t raw -c 2 -r $ORATE -f float
+
+```
+
