@@ -12,6 +12,7 @@ Copyright 2019 Ahmet Inan <inan@aicodix.de>
 #include "fmd.hh"
 #include "biquad.hh"
 #include "normalize.hh"
+#include "blockdc.hh"
 
 template <typename CMPLX>
 CMPLX input()
@@ -65,7 +66,8 @@ int main(int argc, char **argv)
 	DSP::Biquad<value, value> notch, bandpass;
 	notch.notch(19000, irate, 300);
 	bandpass.bandpass(19000, irate, 300);
-	DSP::NormalizeSine<value> recover;
+	DSP::BlockDC<value, value> recover;
+	recover.samples(irate / 10);
 	DSP::BiquadCascade<cmplx, value, 2> aalp;
 	int fmfc = 15000;
 	int aafc = (orate * 9) / 20;
