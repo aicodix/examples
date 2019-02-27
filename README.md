@@ -26,3 +26,13 @@ rtl_sdr -f $FREQ -s $IRATE - | ./fmstereo $IRATE $ORATE $REGION | aplay -t raw -
 
 ```
 
+### [interpol.cc](interpol.cc)
+
+Interpolation via frequency-domain zero padding.
+
+Use gnuplot to look at the example:
+```
+plot "< ./interpol" u 1:2 w l, "< ./interpol" u 1:3 w l, "< ./interpol" u 1:4 w p, "< ./interpol" u 1:5 w p
+```
+![interpol.png](interpol.png)
+
