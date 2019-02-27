@@ -64,8 +64,8 @@ int main(int argc, char **argv)
 	DSP::FMD5<cmplx> demod;
 	demod.bandwidth(value(150000) / value(irate));
 	DSP::Biquad<value, value> notch, bandpass;
-	notch.notch(19000, irate, 300);
-	bandpass.bandpass(19000, irate, 300);
+	notch.notch(19000, irate, 24);
+	bandpass.bandpass(19000, irate, 24);
 	DSP::BlockDC<value, value> recover;
 	recover.samples(irate / 10);
 	DSP::BiquadCascade<cmplx, value, 2> aalp;

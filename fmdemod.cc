@@ -63,7 +63,7 @@ int main(int argc, char **argv)
 	DSP::FMD5<cmplx> demod;
 	demod.bandwidth(value(150000) / value(irate));
 	DSP::Biquad<value, value> notch;
-	notch.notch(19000, irate, 300);
+	notch.notch(19000, irate, 24);
 	DSP::BiquadCascade<value, value, 2> aalp;
 	int fmfc = 15000;
 	int aafc = (orate * 9) / 20;
