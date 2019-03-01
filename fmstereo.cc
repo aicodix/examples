@@ -50,39 +50,43 @@ int region(const char *str)
 
 int main(int argc, char **argv)
 {
-	if (argc != 4)
+	if (argc != 5)
 		return 1;
 	int irate = atoi(argv[1]);
-	int orate = atoi(argv[2]);
-	int knee = region(argv[3]);
+	int mrate = atoi(argv[2]);
+	int orate = atoi(argv[3]);
+	int knee = region(argv[4]);
 	typedef float value;
 	typedef DSP::Complex<value> cmplx;
 	DSP::EMACascade<cmplx, value, 3> iflp;
 	iflp.cutoff(75000, irate);
 	DSP::NormalizeIQ<cmplx> normalize;
-	normalize.samples(irate / 10);
+	normalize.samples(mrate / 10);
 	DSP::FMD5<cmplx> demod;
-	demod.bandwidth(value(150000) / value(irate));
+	demod.bandwidth(value(150000) / value(mrate));
 	DSP::Biquad<value, value> notch, bandpass;
-	notch.notch(19000, irate, 24);
-	bandpass.bandpass(19000, irate, 24);
+	notch.notch(19000, mrate, 24);
+	bandpass.bandpass(19000, mrate, 24);
 	DSP::Differentiator<value> diff;
 	DSP::BiquadCascade<cmplx, value, 2> aalp;
 	int fmfc = 15000;
 	int aafc = (orate * 9) / 20;
 	if (aafc > fmfc)
 		aafc = fmfc;
-	aalp.lowpass(aafc, irate);
+	aalp.lowpass(aafc, mrate);
 	DSP::EMA<cmplx, value> deemp;
 	deemp.cutoff(knee, orate);
 	DSP::EMA<cmplx, value> bias;
 	bias.cutoff(30, orate);
 
-	for (int n = 0;; n -= irate) {
+	for (int i = 0, m = 0;; m -= mrate) {
 		cmplx tmp(0);
-		for (; n < irate; n += orate) {
-			cmplx iq = input<cmplx>();
-			iq = iflp(iq);
+		for (; m < mrate; m += orate, i -= irate) {
+			cmplx iq(0);
+			for (; i < irate; i += mrate) {
+				iq = input<cmplx>();
+				iq = iflp(iq);
+			}
 			iq = normalize(iq);
 			value phase = demod(iq);
 			value pilot = bandpass(phase);

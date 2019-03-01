@@ -8,8 +8,9 @@ Some examples of using our DSP code library
 REGION=1
 FREQ=106.4M
 IRATE=2048000
+MRATE=256000
 ORATE=44100
-rtl_sdr -f $FREQ -s $IRATE - | ./fmdemod $IRATE $ORATE $REGION | aplay -t raw -c 1 -r $ORATE -f float
+rtl_sdr -f $FREQ -s $IRATE - | ./fmdemod $IRATE $MRATE $ORATE $REGION | aplay -t raw -c 1 -r $ORATE -f float
 ```
 
 ### [fmstereo.cc](fmstereo.cc)
@@ -20,18 +21,20 @@ rtl_sdr -f $FREQ -s $IRATE - | ./fmdemod $IRATE $ORATE $REGION | aplay -t raw -c
 REGION=1
 FREQ=106.4M
 IRATE=2048000
+MRATE=256000
 ORATE=44100
-rtl_sdr -f $FREQ -s $IRATE - | ./fmstereo $IRATE $ORATE $REGION | aplay -t raw -c 2 -r $ORATE -f float
+rtl_sdr -f $FREQ -s $IRATE - | ./fmstereo $IRATE $MRATE $ORATE $REGION | aplay -t raw -c 2 -r $ORATE -f float
 ```
 
 For lower CPU usage and fewer underruns, use a lower input rate and avoid using PulseAudio:
 ```
 REGION=1
 FREQ=106.4M
-IRATE=240000
+IRATE=1200000
+MRATE=240000
 ORATE=48000
 DEVICE=$(aplay -L | grep -m1 sysdefault)
-rtl_sdr -f $FREQ -s $IRATE - | ./fmstereo $IRATE $ORATE $REGION | aplay -t raw -c 2 -r $ORATE -f float -D $DEVICE
+rtl_sdr -f $FREQ -s $IRATE - | ./fmstereo $IRATE $MRATE $ORATE $REGION | aplay -t raw -c 2 -r $ORATE -f float -D $DEVICE
 ```
 
 ### [interpol.cc](interpol.cc)
