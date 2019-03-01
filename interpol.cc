@@ -7,6 +7,7 @@ Copyright 2019 Ahmet Inan <inan@aicodix.de>
 #include <stdio.h>
 #include <cmath>
 #include <random>
+#include <functional>
 #include "fdzp.hh"
 #include "complex.hh"
 
