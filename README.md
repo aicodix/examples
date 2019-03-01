@@ -20,19 +20,19 @@ rtl_sdr -f $FREQ -s $IRATE - | ./fmdemod $IRATE $MRATE $ORATE $REGION | aplay -t
 ```
 REGION=1
 FREQ=106.4M
-IRATE=2048000
-MRATE=256000
-ORATE=44100
+IRATE=2400000
+MRATE=480000
+ORATE=48000
 rtl_sdr -f $FREQ -s $IRATE - | ./fmstereo $IRATE $MRATE $ORATE $REGION | aplay -t raw -c 2 -r $ORATE -f float
 ```
 
-For lower CPU usage and fewer underruns, use a lower input rate and avoid using PulseAudio:
+For lower CPU usage and fewer underruns, choose lower rates and avoid PulseAudio:
 ```
 REGION=1
 FREQ=106.4M
-IRATE=1200000
-MRATE=240000
-ORATE=48000
+IRATE=1024000
+MRATE=256000
+ORATE=32000
 DEVICE=$(aplay -L | grep -m1 sysdefault)
 rtl_sdr -f $FREQ -s $IRATE - | ./fmstereo $IRATE $MRATE $ORATE $REGION | aplay -t raw -c 2 -r $ORATE -f float -D $DEVICE
 ```
