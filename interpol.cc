@@ -1,5 +1,5 @@
 /*
-Stereo FM demodulation example
+Interpolation via frequency-domain zero padding.
 
 Copyright 2019 Ahmet Inan <inan@aicodix.de>
 */
