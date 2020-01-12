@@ -5,7 +5,7 @@ CXX = clang++ -stdlib=libc++
 
 .PHONY: all
 
-all: fmdemod fmstereo interpol
+all: fmdemod fmstereo interpol hermite uniform
 
 fmdemod: fmdemod.cc
 	$(CXX) $(CXXFLAGS) $< -o $@
@@ -16,8 +16,14 @@ fmstereo: fmstereo.cc
 interpol: interpol.cc
 	$(CXX) $(CXXFLAGS) $< -o $@
 
+hermite: hermite.cc
+	$(CXX) $(CXXFLAGS) $< -o $@
+
+uniform: uniform.cc
+	$(CXX) $(CXXFLAGS) $< -o $@
+
 .PHONY: clean
 
 clean:
-	rm -f fmdemod fmstereo interpol
+	rm -f fmdemod fmstereo interpol hermite uniform
 
