@@ -26,9 +26,11 @@ int main()
 		input[i] = cmplx(noise(), noise());
 	fdzp(output, input);
 	for (int i = 0; i < BINS; ++i)
-		printf("%g # # %g %g\n", value(i) / value(BINS), input[i].real(), input[i].imag());
-	for (int i = 0; i < BINS * FACT; ++i)
-		printf("%g %g %g # #\n", value(i) / value(BINS * FACT), output[i].real(), output[i].imag());
+		printf("%g %g %g NaN NaN\n", value(i) / value(BINS), input[i].real(), input[i].imag());
+	for (int i = 0; i <= BINS * FACT; ++i) {
+		int j = i % (BINS * FACT);
+		printf("%g NaN NaN %g %g\n", value(i) / value(BINS * FACT), output[j].real(), output[j].imag());
+	}
 	return 0;
 }
 

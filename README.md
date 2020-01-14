@@ -37,15 +37,15 @@ DEVICE=$(aplay -L | grep -m1 sysdefault)
 rtl_sdr -f $FREQ -s $IRATE - | ./fmstereo $IRATE $MRATE $ORATE $REGION | aplay -t raw -c 2 -r $ORATE -f float -D $DEVICE
 ```
 
-### [interpol.cc](interpol.cc)
+### [fdzp.cc](fdzp.cc)
 
 Interpolation via frequency-domain zero padding.
 
 Use gnuplot to look at the example:
 ```
-plot "< ./interpol" u 1:2 w l, "< ./interpol" u 1:3 w l, "< ./interpol" u 1:4 w p, "< ./interpol" u 1:5 w p
+plot "< ./fdzp" u 2:3 w p pt 4 t "Data", "< ./fdzp" u 4:5 w l t "FDZP"
 ```
-![interpol.png](interpol.png)
+![fdzp.png](fdzp.png)
 
 ### [hermite.cc](hermite.cc)
 
