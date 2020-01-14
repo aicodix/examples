@@ -57,6 +57,16 @@ plot "< ./hermite" u 1:2 w p pt 4 t "Data", "< ./hermite" u 1:3 w l t "Hermite"
 ```
 ![hermite.png](hermite.png)
 
+### [hermite2.cc](hermite2.cc)
+
+Interpolation in 2D using [Cubic Hermite Spline](https://en.wikipedia.org/wiki/Cubic_Hermite_spline).
+
+Use gnuplot to look at the example:
+```
+plot "< ./hermite2" u 2:3 w p pt 4 t "Data", "< ./hermite2" u 4:5 w l t "Hermite"
+```
+![hermite2.png](hermite2.png)
+
 ### [uniform.cc](uniform.cc)
 
 Comparing interpolation between [Uniform Cubic Hermite Spline](https://en.wikipedia.org/wiki/Cubic_Hermite_spline#Catmull%E2%80%93Rom_spline) and [Uniform Natural Cubic Spline](https://en.wikipedia.org/wiki/Spline_(mathematics)#Algorithm_for_computing_natural_cubic_splines).
