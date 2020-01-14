@@ -15,7 +15,7 @@ int main()
 	const int SAMPLES = 16;
 	const int FACT = 10;
 	typedef float value;
-	typedef DSP::CubicHermiteSpline<value> hermite;
+	typedef DSP::CubicHermiteSpline<value, value> hermite;
 	value y[SAMPLES];
 	std::default_random_engine generator(42);
 	typedef std::uniform_real_distribution<value> distribution;
