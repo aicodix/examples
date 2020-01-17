@@ -25,14 +25,10 @@ int main()
 	DSP::UniformNaturalCubicSpline<SAMPLES, value, value> natural(y);
 	for (int i = 0; i < SAMPLES; ++i)
 		printf("%g %g NaN NaN\n", value(i), y[i]);
-	for (int k = 0; k < SAMPLES-1; ++k) {
-		for (int i = 0; i < FACT; ++i) {
-			value t = value(i) / value(FACT);
-			value x = value(k) + t;
-			printf("%g NaN %g %g\n", x, hermite::eval(y, t, k, SAMPLES), natural(x));
-		}
+	for (int k = -FACT; k <= SAMPLES * FACT; ++k) {
+		value x = value(k) / value(FACT);
+		printf("%g NaN %g %g\n", x, hermite::eval(y, x, SAMPLES), natural(x));
 	}
-	printf("%g NaN %g %g\n", value(SAMPLES-1), hermite::eval(y, value(1), SAMPLES-2, SAMPLES), natural(value(SAMPLES-1)));
 	return 0;
 }
 
