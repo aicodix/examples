@@ -13,24 +13,22 @@ Copyright 2019 Ahmet Inan <inan@aicodix.de>
 
 int main()
 {
-	const int BINS = 15;
-	const int FACT = 10;
+	const int INPUT = 15;
+	const int OUTPUT = 150;
 	typedef float value;
 	typedef DSP::Complex<value> cmplx;
-	DSP::FDZP<BINS, FACT, cmplx> fdzp;
-	cmplx input[BINS], output[BINS * FACT];
+	DSP::FDZP<OUTPUT, INPUT, cmplx> fdzp;
+	cmplx input[INPUT], output[OUTPUT];
 	std::default_random_engine generator(42);
 	std::uniform_real_distribution<value> distribution(-value(1), value(1));
 	auto noise = std::bind(distribution, generator);
-	for (int i = 0; i < BINS; ++i)
+	for (int i = 0; i < INPUT; ++i)
 		input[i] = cmplx(noise(), noise());
 	fdzp(output, input);
-	for (int i = 0; i < BINS; ++i)
-		printf("%g %g %g NaN NaN\n", value(i) / value(BINS), input[i].real(), input[i].imag());
-	for (int i = 0; i <= BINS * FACT; ++i) {
-		int j = i % (BINS * FACT);
-		printf("%g NaN NaN %g %g\n", value(i) / value(BINS * FACT), output[j].real(), output[j].imag());
-	}
+	for (int i = 0; i < INPUT; ++i)
+		printf("%g %g %g NaN NaN\n", value(i) / value(INPUT), input[i].real(), input[i].imag());
+	for (int i = 0; i <= OUTPUT; ++i)
+		printf("%g NaN NaN %g %g\n", value(i) / value(OUTPUT), output[i%OUTPUT].real(), output[i%OUTPUT].imag());
 	return 0;
 }
 
