@@ -77,3 +77,11 @@ plot "< ./uniform" u 1:2 w p pt 4 t "Data", "< ./uniform" u 1:3 w l t "Hermite",
 ```
 ![uniform.png](uniform.png)
 
+### [cdc.cc](cdc.cc)
+
+Fs/4 [Complex down conversion](https://en.wikipedia.org/wiki/Digital_down_converter)
+
+### [hilbert.cc](hilbert.cc)
+
+[Discrete Hilbert transform](https://en.wikipedia.org/wiki/Hilbert_transform#Discrete_Hilbert_transform)
+
