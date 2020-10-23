@@ -5,7 +5,7 @@ CXX = clang++ -stdlib=libc++
 
 .PHONY: all
 
-all: fmdemod fmstereo fdzp hermite hermite2 uniform cdc hilbert
+all: fmdemod fmstereo fdzp hermite hermite2 uniform cdc hilbert nclms
 
 fmdemod: fmdemod.cc
 	$(CXX) $(CXXFLAGS) $< -o $@
@@ -31,8 +31,11 @@ cdc: cdc.cc
 hilbert: hilbert.cc
 	$(CXX) $(CXXFLAGS) $< -o $@
 
+nclms: nclms.cc
+	$(CXX) $(CXXFLAGS) $< -o $@
+
 .PHONY: clean
 
 clean:
-	rm -f fmdemod fmstereo fdzp hermite hermite2 uniform cdc hilbert
+	rm -f fmdemod fmstereo fdzp hermite hermite2 uniform cdc hilbert nclms
 

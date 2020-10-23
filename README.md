@@ -85,3 +85,9 @@ Fs/4 [Complex down conversion](https://en.wikipedia.org/wiki/Digital_down_conver
 
 [Discrete Hilbert transform](https://en.wikipedia.org/wiki/Hilbert_transform#Discrete_Hilbert_transform)
 
+### [nclms.cc](nclms.cc)
+
+Channel estimation using the [Normalized Complex Least Mean Squares filter](https://en.wikipedia.org/wiki/Least_mean_squares_filter)
+
+![nclms.png](nclms.png)
+
