@@ -30,7 +30,7 @@ int main()
 	for (int k = 0; k < SAMPLES-1; ++k) {
 		for (int i = 0; i < FACT; ++i) {
 			value t = value(i) / value(FACT);
-			printf("%g NaN %g\n", DSP::lerp(t, x[k], x[k+1]), hermite::eval(x, y, t, k, SAMPLES));
+			printf("%g NaN %g\n", DSP::lerp(x[k], x[k+1], t), hermite::eval(x, y, t, k, SAMPLES));
 		}
 	}
 	printf("%g NaN %g\n", x[SAMPLES-1], hermite::eval(x, y, value(1), SAMPLES-2, SAMPLES));
